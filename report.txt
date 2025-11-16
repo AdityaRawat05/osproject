@@ -1,0 +1,51 @@
+Directory Snapshot Report for: .
+Generated on: Fri Nov 14 18:01:10 2025
+Total files: 44
+--------------------------------------------------------------------------------
+Index  Path                                                                             Size(B)      Owner        Last Modified           
+--------------------------------------------------------------------------------
+1      ./main.c                                                                         2199         aditya       2025-11-14 11:52:17     
+2      ./sort.c                                                                         3795         aditya       2025-11-14 11:21:08     
+3      ./report.csv                                                                     2655         aditya       2025-11-14 17:59:58     
+4      ./.git/logs/HEAD                                                                 605          aditya       2025-10-18 00:39:54     
+5      ./.git/logs/refs/heads/main                                                      413          aditya       2025-10-18 00:39:54     
+6      ./.git/logs/refs/remotes/origin/main                                             154          aditya       2025-10-18 00:41:09     
+7      ./.git/info/exclude                                                              240          aditya       2025-10-18 00:36:28     
+8      ./.git/objects/a7/5819345d1f1f41f159c3a8958d23639948359d                         416          aditya       2025-10-18 00:36:39     
+9      ./.git/objects/31/b7f98caa3e28a923ab240bb4568966df32a860                         917          aditya       2025-10-18 00:36:39     
+10     ./.git/objects/b7/c1571aee6cfd2b7f236971c4d2460ea5d61320                         231          aditya       2025-10-18 00:36:47     
+11     ./.git/objects/5d/b743d280a8b0416bbe823c5d7e2b83177ef034                         1238         aditya       2025-10-18 00:36:39     
+12     ./.git/objects/64/ce4a8b6232c9113f6cfc2c812086fe66ed00d1                         89           aditya       2025-10-18 00:36:39     
+13     ./.git/objects/e9/ddee8504c05a29930df94ab1a350ffb400cee6                         558          aditya       2025-10-18 00:36:39     
+14     ./.git/objects/d3/9efb9a675d0f36a89744197d7d2d64846fd484                         333          aditya       2025-10-18 00:36:39     
+15     ./.git/objects/dc/d7e17a678fd97b84787786e63382faab05648b                         33           aditya       2025-10-18 00:36:39     
+16     ./.git/objects/ad/b2a8e4be931272c0b40916df74099af052c101                         175          aditya       2025-10-18 00:38:31     
+17     ./.git/hooks/pre-commit.sample                                                   1638         aditya       2025-10-18 00:36:28     
+18     ./.git/hooks/fsmonitor-watchman.sample                                           3079         aditya       2025-10-18 00:36:28     
+19     ./.git/hooks/prepare-commit-msg.sample                                           1492         aditya       2025-10-18 00:36:28     
+20     ./.git/hooks/post-update.sample                                                  189          aditya       2025-10-18 00:36:28     
+21     ./.git/hooks/applypatch-msg.sample                                               478          aditya       2025-10-18 00:36:28     
+22     ./.git/hooks/pre-receive.sample                                                  544          aditya       2025-10-18 00:36:28     
+23     ./.git/hooks/pre-applypatch.sample                                               424          aditya       2025-10-18 00:36:28     
+24     ./.git/hooks/pre-push.sample                                                     1348         aditya       2025-10-18 00:36:28     
+25     ./.git/hooks/pre-merge-commit.sample                                             416          aditya       2025-10-18 00:36:28     
+26     ./.git/hooks/pre-rebase.sample                                                   4898         aditya       2025-10-18 00:36:28     
+27     ./.git/hooks/commit-msg.sample                                                   896          aditya       2025-10-18 00:36:28     
+28     ./.git/hooks/update.sample                                                       3610         aditya       2025-10-18 00:36:28     
+29     ./.git/description                                                               73           aditya       2025-10-18 00:36:28     
+30     ./.git/index                                                                     577          aditya       2025-10-18 00:36:47     
+31     ./.git/HEAD                                                                      21           aditya       2025-10-18 00:39:54     
+32     ./.git/refs/heads/main                                                           41           aditya       2025-10-18 00:39:54     
+33     ./.git/refs/remotes/origin/main                                                  41           aditya       2025-10-18 00:41:09     
+34     ./.git/config                                                                    267          aditya       2025-10-18 00:41:09     
+35     ./.git/COMMIT_EDITMSG                                                            64           aditya       2025-10-18 00:39:24     
+36     ./search.c                                                                       1625         aditya       2025-11-14 11:22:20     
+37     ./a.txt                                                                          108          aditya       2025-10-13 13:46:47     
+38     ./report.c                                                                       5565         aditya       2025-11-14 11:46:48     
+39     ./b.txt                                                                          17           aditya       2025-10-13 13:47:02     
+40     ./sync.c                                                                         616          aditya       2025-11-14 11:15:45     
+41     ./delete.c                                                                       2532         aditya       2025-11-14 11:51:54     
+42     ./dir_manage                                                                     27536        aditya       2025-11-14 18:00:58     
+43     ./dir_manage.h                                                                   1677         aditya       2025-11-14 11:48:33     
+44     ./report.txt                                                                     6308         aditya       2025-11-14 11:55:24     
+--------------------------------------------------------------------------------

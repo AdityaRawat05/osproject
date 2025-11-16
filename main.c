@@ -5,22 +5,31 @@ int main() {
     int choice;
     char pattern[128];
 
+    // ---------------------------------------------------------
+    // Initialize Synchronization (mutex + semaphore)
+    // ---------------------------------------------------------
+    initSyncMechanisms();
+
     printf("Enter directory path: ");
     scanf("%s", path);
 
     do {
-        printf("\nChoose an option:\n");
+        printf("\n=================== Directory Management System ===================\n");
         printf("1. List & Sort Directory\n");
         printf("2. Search by Name/Extension\n");
         printf("3. Delete using SRU Filtering\n");
-        printf("4. Exit\n");
+        printf("4. Generate Report (TXT + CSV)\n");
+        printf("5. File Operations (Copy/Move/Rename/Delete)\n");
+        printf("6. Exit\n");
+        printf("===================================================================\n");
         printf("Enter choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
+
             case 1: {
                 int sortChoice;
-                printf("Select sorting option:\n");
+                printf("\nSelect sorting option:\n");
                 printf("1. Sort by Name\n");
                 printf("2. Sort by Size\n");
                 printf("3. Sort by Last Modified Date\n");
@@ -32,7 +41,7 @@ int main() {
             }
 
             case 2:
-                printf("Enter name or extension to search (e.g., .c or file): ");
+                printf("\nEnter name or extension to search (e.g., .c or file): ");
                 scanf("%s", pattern);
                 searchByNameOrExtension(path, pattern);
                 break;
@@ -42,14 +51,27 @@ int main() {
                 break;
 
             case 4:
-                printf("Exiting program.\n");
+                exportAllReports(path);
+                break;
+
+            case 5:
+                fileOperationsMenu(path);
+                break;
+
+            case 6:
+                printf("\nExiting program...\n");
                 break;
 
             default:
-                printf("Invalid choice! Try again.\n");
+                printf("\nInvalid choice! Try again.\n");
         }
 
-    } while (choice != 4);
+    } while (choice != 6);
+
+    // ---------------------------------------------------------
+    // Cleanup Synchronization Before Exit
+    // ---------------------------------------------------------
+    destroySyncMechanisms();
 
     return 0;
 }

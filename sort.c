@@ -1,28 +1,41 @@
 #include "dir_manage.h"
 
-// Comparison functions
+// -----------------------------------------------------
+// Comparison Functions for qsort()
+// -----------------------------------------------------
+
 int compareByName(const void *a, const void *b) {
-    const struct FileInfo *f1 = (const struct FileInfo *)a;
-    const struct FileInfo *f2 = (const struct FileInfo *)b;
+    const FileInfo *f1 = (const FileInfo *)a;
+    const FileInfo *f2 = (const FileInfo *)b;
     return strcmp(f1->name, f2->name);
 }
 
 int compareBySize(const void *a, const void *b) {
-    const struct FileInfo *f1 = (const struct FileInfo *)a;
-    const struct FileInfo *f2 = (const struct FileInfo *)b;
-    return (f1->size > f2->size) - (f1->size < f2->size);
+    const FileInfo *f1 = (const FileInfo *)a;
+    const FileInfo *f2 = (const FileInfo *)b;
+
+    if (f1->size < f2->size) return -1;
+    if (f1->size > f2->size) return 1;
+    return 0;
 }
 
 int compareByDate(const void *a, const void *b) {
-    const struct FileInfo *f1 = (const struct FileInfo *)a;
-    const struct FileInfo *f2 = (const struct FileInfo *)b;
-    return (f1->modified > f2->modified) - (f1->modified < f2->modified);
+    const FileInfo *f1 = (const FileInfo *)a;
+    const FileInfo *f2 = (const FileInfo *)b;
+
+    if (f1->modified < f2->modified) return -1;
+    if (f1->modified > f2->modified) return 1;
+    return 0;
 }
+
+// -----------------------------------------------------
+// Main Directory Listing + Sorting Function
+// -----------------------------------------------------
 
 void listAndSortDirectory(const char *path, int sortChoice) {
     struct dirent *de;
     struct stat st;
-    struct FileInfo files[1000];
+    FileInfo files[1000];
     int count = 0;
     char fullPath[1024];
 
@@ -32,85 +45,78 @@ void listAndSortDirectory(const char *path, int sortChoice) {
         return;
     }
 
+    // -------------------------------------------------
+    // Read all directory entries
+    // -------------------------------------------------
     while ((de = readdir(dr)) != NULL) {
+
         if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
             continue;
 
         snprintf(fullPath, sizeof(fullPath), "%s/%s", path, de->d_name);
-        if (stat(fullPath, &st) == 0) {
+
+        if (stat(fullPath, &st) == 0 && S_ISREG(st.st_mode)) {
+
             strcpy(files[count].name, de->d_name);
             files[count].size = st.st_size;
 
             struct passwd *pw = getpwuid(st.st_uid);
             struct group  *gr = getgrgid(st.st_gid);
+
             strcpy(files[count].owner, pw ? pw->pw_name : "unknown");
             strcpy(files[count].group, gr ? gr->gr_name : "unknown");
             files[count].modified = st.st_mtime;
+
             count++;
         }
     }
+
     closedir(dr);
 
-    // Sorting choice
+    // -------------------------------------------------
+    // Sorting based on user choice
+    // -------------------------------------------------
     switch (sortChoice) {
-        case 1: qsort(files, count, sizeof(struct FileInfo), compareByName); break;
-        case 2: qsort(files, count, sizeof(struct FileInfo), compareBySize); break;
-        case 3: qsort(files, count, sizeof(struct FileInfo), compareByDate); break;
-        default: qsort(files, count, sizeof(struct FileInfo), compareByName); break;
+        case 1:
+            qsort(files, count, sizeof(FileInfo), compareByName);
+            break;
+
+        case 2:
+            qsort(files, count, sizeof(FileInfo), compareBySize);
+            break;
+
+        case 3:
+            qsort(files, count, sizeof(FileInfo), compareByDate);
+            break;
+
+        default:
+            qsort(files, count, sizeof(FileInfo), compareByName);
+            break;
     }
 
-    // Header
-    printf("\nListing of Directory: %s\n", path);
-    printf("--------------------------------------------------------------------------------------------\n");
-    printf("%-25s %-10s %-10s %-10s %-25s\n", "File Name", "Size(B)", "Owner", "Group", "Last Modified");
-    printf("--------------------------------------------------------------------------------------------\n");
+    // -------------------------------------------------
+    // Print Sorted Output
+    // Thread-Safe Printing
+    // -------------------------------------------------
 
-    // Print details
+    printf("\nListing of Directory: %s\n", path);
+    printf("-----------------------------------------------------------------------------------------------------\n");
+    printf("%-25s %-12s %-12s %-12s %-25s\n", "File Name", "Size(B)", "Owner", "Group", "Last Modified");
+    printf("-----------------------------------------------------------------------------------------------------\n");
+
     for (int i = 0; i < count; i++) {
-        printf("%-25s %-10ld %-10s %-10s %-25s",
+
+        lockFileOps();  // Thread-safe printing
+
+        printf("%-25s %-12ld %-12s %-12s %-25s",
                files[i].name,
                (long)files[i].size,
                files[i].owner,
                files[i].group,
                ctime(&files[i].modified));
+
+        unlockFileOps();
     }
-    printf("--------------------------------------------------------------------------------------------\n");
-}
 
-// Menu function
-void menu() {
-    char path[512];
-    int choice;
-
-    printf("Enter directory path: ");
-    scanf("%s", path);
-
-    do {
-        printf("\n==================== Directory Sort Menu ====================\n");
-        printf("1. Sort by Name\n");
-        printf("2. Sort by Size\n");
-        printf("3. Sort by Last Modified Date\n");
-        printf("4. Change Directory\n");
-        printf("5. Exit\n");
-        printf("=============================================================\n");
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
-
-        switch (choice) {
-            case 1:
-            case 2:
-            case 3:
-                listAndSortDirectory(path, choice);
-                break;
-            case 4:
-                printf("Enter new directory path: ");
-                scanf("%s", path);
-                break;
-            case 5:
-                printf("Exiting program. Goodbye!\n");
-                break;
-            default:
-                printf("Invalid choice! Please try again.\n");
-        }
-    } while (choice != 5);
+    printf("-----------------------------------------------------------------------------------------------------\n");
 }
